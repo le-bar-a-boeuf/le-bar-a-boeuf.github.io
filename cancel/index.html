@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Le Bar à Bœuf | Paiement annulé</title>
+  <meta name="description" content="Oups, le paiement n'a pas abouti. Aucun débit ne sera effectué. Vous pouvez réessayer." />
+  <link rel="canonical" href="https://le-bar-a-boeuf.github.io/le-bar-a-boeuf/cancel" />
+  <meta name="theme-color" content="#4E6A57" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Le Bar à Bœuf | Paiement annulé" />
+  <meta property="og:description" content="Le paiement n'a pas abouti. Aucun débit. Vous pouvez réessayer." />
+  <meta property="og:image" content="../images/og-cover.jpg" />
+  <meta property="og:url" content="https://le-bar-a-boeuf.github.io/le-bar-a-boeuf/cancel" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" href="../images/Logo_vf.png" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script defer src="../script.js"></script>
+
+  <!-- Fallback sans JS : redirection automatique en 20 s vers la page d’accueil -->
+  <meta http-equiv="refresh" content="20; url=index.html#top" />
+
+  <style>
+    .cancel-wrap { max-width: 840px; margin: 0 auto; }
+    .cancel-card{
+      background:#fff;border:1px solid rgba(36,48,39,.10);
+      border-radius:16px;padding:28px;box-shadow:0 8px 22px rgba(36,48,39,.06);
+      text-align:center;
+    }
+    .cancel-icon{
+      width:78px;height:78px;margin:6px auto 14px;display:block;
+      color:var(--brand-700,#4E6A57);
+    }
+    .cancel-card h1{
+      margin:6px 0 8px;color:var(--brand-700,#4E6A57);
+      font-family:"Cormorant Garamond",Georgia,serif;font-weight:700;letter-spacing:.2px;
+      font-size:clamp(28px,5vw,42px);
+    }
+    .cancel-card p.lead{ margin:6px 0 14px; }
+
+    /* Barre de progression (réutilise la zone #success comme pour success.html) */
+    #success .redirect-wrap{ width:min(520px,94%); margin:10px auto 0; text-align:center; }
+    #success .redirect-msg{ margin-bottom:6px; opacity:.9; }
+    #success .redirect-bar{ height:8px; border-radius:999px; background:rgba(36,48,39,.1); overflow:hidden; }
+    #success .redirect-bar .fill{
+      display:block; height:100%; width:0%;
+      background:var(--brand-700,#4E6A57);
+      animation: fill20 20s linear forwards;
+    }
+    @keyframes fill20{ to { width:100%; } }
+  </style>
+</head>
+
+<body data-theme="potager-sauge">
+  <header class="site-header">
+    <a class="brand" href="../index.html#top" aria-label="Accueil Le Bar à Bœuf">
+      <img src="../images/logo_vf.png" alt="" class="logo" />
+      <span>Le Bar à Bœuf</span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav id="nav" class="nav">
+      <a href="../index.html#menu">Carte</a>
+      <a href="../ferme-preney/index.html#tbl">Produits</a>
+      <a href="../index.html#infos">Infos & contact</a>
+      <a href="../en/cancel/index.html" aria-label="English version">English</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero" style="min-height:36svh">
+      <picture>
+        <source srcset="../images/vue_Lac.webp" type="image/webp" />
+        <img src="../images/Vue_Lac.jpg" alt="Vue sur le lac du Morvan" loading="eager" />
+      </picture>
+      <div class="hero-text">
+        <h1>La ferme de Preney</h1>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="cancel-wrap">
+        <article class="cancel-card">
+          <!-- Icône “erreur” -->
+          <svg class="cancel-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" stroke="#d84b4b" stroke-width="1.6" fill="none"/>
+            <path d="M8 8l8 8M16 8l-8 8" stroke="#d84b4b" stroke-width="1.8" stroke-linecap="round" />
+          </svg>
+
+          <h1>Oups… le paiement n’a pas abouti</h1>
+          <p class="lead">
+            Rassurez-vous&nbsp;: <strong>aucun débit ne sera effectué</strong>.  
+            Vous pouvez réessayer depuis votre panier ou revenir à l’accueil.
+          </p>
+
+          <div id="success" class="cta-row">
+            <a class="btn ghost" href="../ferme-preney/index.html#top">Revenir à l’accueil</a>
+            <a class="btn" href="../index.html#top">Notre restaurant</a>
+            <a class="btn ghost" href="../ferme-preney/index.html#infos">Nous contacter</a>
+
+            <div class="redirect-wrap" aria-live="polite">
+              <div class="redirect-msg">
+                Redirection automatique vers l’accueil dans
+                <span id="count">20</span>s…
+              </div>
+              <div class="redirect-bar">
+                <span class="fill"></span>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> Le Bar à Bœuf — Tous droits réservés.</p>
+    <nav class="foot-links">
+      <a href="#">Mentions légales</a>
+      <a href="#">Confidentialité</a>
+    </nav>
+  </footer>
+
+  <script>
+    // On NE vide PAS le panier ici, pour permettre de réessayer.
+    (function () {
+      const TARGET = '../ferme-preney/index.html#top';
+      const COUNT = document.getElementById('count');
+      let left = 20;
+
+      const tick = setInterval(() => {
+        left--;
+        if (COUNT) COUNT.textContent = left;
+        if (left <= 0) {
+          clearInterval(tick);
+          window.location.href = TARGET;
+        }
+      }, 1000);
+    })();
+  </script>
+</body>
+</html>

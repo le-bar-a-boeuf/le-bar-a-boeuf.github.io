@@ -1,0 +1,1645 @@
+
+:root{
+  --bg:#0b1220; --panel:#0f172a; --ink:#e5e7eb; --muted:#000; --brand:#84cc16; --accent:#22c55e;
+  --max:1100px; --radius:16px;
+  --shadow:0 10px 30px rgba(0,0,0,.25), 0 2px 8px rgba(0,0,0,.15);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Arial,sans-serif;color:var(--ink);background:linear-gradient(180deg,#0a0f1c,#0b1220);line-height:1.6}
+a{color:#5F7D69;text-decoration:none}
+a:hover{text-decoration:underline}
+img{max-width:100%;height:auto;display:block;border-radius:12px}
+.section{padding:64px 20px;margin-inline:auto;max-width:var(--max)}
+.section.alt{background:rgba(255,255,255,.03);border-radius:var(--radius)}
+.lead{color:var(--muted);margin-top:-8px}
+
+.site-header{position:sticky;top:0;z-index:50;backdrop-filter:blur(10px);background:rgba(10,15,28,.7);border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between;padding:12px 20px}
+.brand{display:flex;gap:10px;align-items:center;font-weight:700}
+.logo{width:28px;height:28px}
+.nav{display:flex;gap:18px}
+.nav a{padding:8px 10px;border-radius:10px}
+.nav a:hover{background:rgba(255,255,255,.06)}
+.nav-toggle{display:none}
+
+.hero{position:relative;min-height:64svh;display:grid;place-items:center;overflow:hidden}
+.hero img{width:100%;height:64svh;object-fit:cover;filter:brightness(.7)}
+.hero-text{position:absolute;inset:auto 20px 10%;max-width:780px;margin-inline:auto;text-align:center}
+.hero h1{font-size:clamp(28px,5vw,44px);margin:0 0 10px}
+.hero p{color:#d1d5db;margin:0 0 20px}
+.cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{background:linear-gradient(135deg,var(--brand),var(--accent));color:#0b1220;padding:12px 18px;border-radius:999px;font-weight:700;box-shadow:var(--shadow)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid rgba(255,255,255,.2)}
+.btn:hover{filter:saturate(1.1)}
+
+.grid{display:grid;gap:20px}
+.grid.two{grid-template-columns:1.1fr .9fr}
+@media (max-width:900px){ .grid.two{grid-template-columns:1fr} }
+
+.cards{grid-template-columns:repeat(4,1fr)}
+@media (max-width:1100px){ .cards{grid-template-columns:repeat(2,1fr)} }
+@media (max-width:640px){ .cards{grid-template-columns:1fr} }
+
+.card{background:rgba(255,255,255,.04);padding:16px;border-radius:16px;border:1px solid rgba(255,255,255,.06)}
+.card h3{margin:.6rem 0}
+.price{font-weight:700;color:#b9f47a}
+
+.list{margin:10px 0;padding-left:18px}
+.list li{margin:6px 0}
+
+.masonry{columns:4 220px;column-gap:16px}
+.masonry img{margin:0 0 16px;border-radius:12px}
+
+iframe{width:100%;min-height:320px;border:0;border-radius:16px}
+
+.site-footer{border-top:1px solid rgba(255,255,255,.06);padding:24px 20px;text-align:center;color:var(--muted)}
+.foot-links{display:flex;gap:16px;justify-content:center;margin-top:6px}
+
+@media (max-width:820px){
+  .nav{display:none;position:absolute;right:12px;top:56px;flex-direction:column;background:#0b1220;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:10px;width:min(60vw,300px)}
+  .nav.show{display:flex}
+  .nav-toggle{display:inline-flex;gap:8px;align-items:center;background:transparent;border:1px solid rgba(255,255,255,.2);color:var(--ink);padding:8px 12px;border-radius:10px}
+}
+
+/* Conteneur centré et largeur max contrôlée */
+.section .cards-wrap {
+  max-width: 1200px;      /* ajuste si besoin */
+  margin: 0 auto;
+}
+
+
+
+/* Bandeau horizontal qui prend la largeur des 3 cartes */
+.card--wide {
+  grid-column: 1 / -1;       /* span sur les 3 colonnes */
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+/* Media + texte dans le bandeau */
+.card--wide .card-media {
+  flex: 0 0 42%;             /* image ~40% */
+}
+.card--wide .card-media img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  display: block;
+}
+.card--wide .card-body {
+  flex: 1;
+}
+
+/* Espacements entre blocs */
+.section .block-space-sm { margin-top: 20px; }
+.section .block-space-md { margin-top: 28px; }
+.section .block-space-lg { margin-top: 40px; }
+
+/* Bouton PDF centré */
+.menu-download {
+  text-align: center;
+}
+.menu-download a.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #8B0000;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.card--full {
+  grid-column: 1 / -1;   /* occupe toute la largeur de la grille */
+  background: none;      /* optionnel : retire le fond des cartes classiques */
+  box-shadow: none;      /* optionnel : retire l'ombre si pas souhaitée */
+}
+
+.cards-wrap { max-width: 1200px; margin: 0 auto; }
+.grid.cards {
+  display: grid;
+  grid-template-columns: repeat(autofit, minmax(260px, 1fr));
+  gap: 24px;
+  place-content: center;
+}
+
+/**********************
+/* 1) Make the section & cards area wider */
+                        /* or 1400px if you prefer */
+
+
+
+/* 2) Fix the grid: use auto-fit (with hyphen) and let it stretch */
+.grid.cards{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* was 'autofit' */
+  gap: 24px;
+  justify-content: stretch;   /* or just remove your old place-content:center */
+}
+
+
+
+
+/**********************
+
+
+.card { display: flex; flex-direction: column; }
+
+/* Image : même taille pour toutes */
+.card .media {
+  width: 100%;
+  aspect-ratio: 5 / 5;     /* identique sur les 3 */
+  overflow: hidden;
+  border-radius: 12px;
+}
+.card .media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* Titres : 2 lignes fixes + même rythme de césure */
+.card .card-title {
+  margin: 12px 0 8px;
+  line-height: 1.2;
+  min-height: calc(1.2em * 2); /* réserve la même hauteur */
+}
+
+/* Paragraphe harmonisé */
+.card p { margin: 0 0 10px; }
+
+
+/* === Potager-sauge : contraste & titres raffinés === */
+
+/* Palette raffinée */
+body[data-theme="potager-sauge"]{
+  --ink:#243027;        /* texte principal (encre) */
+  --muted:#738179;      /* secondaire discret */
+  --brand:#5F7D69;      /* vert sauge du header */
+  --brand-700:#4E6A57;  /* un ton plus soutenu */
+}
+
+/* 1) Corrige la règle globale qui mettait <p> en muted */
+body[data-theme="potager-sauge"] #menu p,
+body[data-theme="potager-sauge"] .card p{
+  color: var(--ink) !important;
+}
+
+/* 2) "Notre carte" : même vert que le header */
+body[data-theme="potager-sauge"] #menu h2{
+  color: var(--brand-700) !important;
+}
+
+/* 3) Titres des cartes en 2 niveaux, sobres */
+body[data-theme="potager-sauge"] .card-title{
+  margin:12px 0 8px;
+  line-height:1.2;
+  font-size:clamp(18px,1.7vw,20px);  /* 2e ligne (après <br>) */
+  font-weight:600;
+  color:var(--ink);                  /* 2e ligne = encre, discret */
+}
+
+/* 1ère ligne (avant <br>) = sauge soutenu, un peu plus fort */
+body[data-theme="potager-sauge"] .card-title::first-line{
+  color:var(--brand-700);
+  font-size:1.06em;
+  font-weight:700;
+  letter-spacing:.2px;
+}
+
+/* 4) Lead et notes en secondaire doux */
+body[data-theme="potager-sauge"] .lead,
+body[data-theme="potager-sauge"] .note{
+  color:var(--muted) !important;
+}
+
+/* === Fix fond clair pour le thème POTAGER-SAUGE === */
+:root[data-theme="potager-sauge"]{
+  --bg-top: #FBFCFA;
+  --bg-bottom: #EEF2EA;
+}
+
+/* Force le fond clair, même s'il y a un background défini plus haut */
+html[data-theme="potager-sauge"],
+body[data-theme="potager-sauge"]{
+  background: linear-gradient(180deg, var(--bg-top), var(--bg-bottom)) !important;
+  color: var(--ink);
+}
+
+/* Header cohérent en clair */
+body[data-theme="potager-sauge"] .site-header{
+  background: rgba(255,255,255,.9) !important;
+  border-bottom: 1px solid rgba(36,48,39,.10);
+}
+
+/* Sections alternées & cartes gardent le look clair */
+body[data-theme="potager-sauge"] .section.alt{ background:#FFFFFF; }
+body[data-theme="potager-sauge"] .card{
+  background:#FFFFFF;
+  border:1px solid rgba(36,48,39,.08);
+}
+
+
+body[data-theme="potager-sauge"] .card-title{
+  margin:12px 0 6px; line-height:1.2;
+  font-size:clamp(18px,1.7vw,20px);
+  font-weight:600; font-style:italic; color:var(--ink);
+  font-family:Georgia, "Times New Roman", serif; /* 2e ligne = sérif système */
+  position:relative; padding-bottom:6px;
+}
+body[data-theme="potager-sauge"] .card-title::first-line{
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Arial,sans-serif;
+  font-style:normal; color:var(--brand-700); font-weight:700; font-size:1.06em; letter-spacing:.2px;
+}
+body[data-theme="potager-sauge"] .card-title::after{
+  content:""; display:block; width:36px; height:2px;
+  background:color-mix(in oklab, var(--brand-700) 70%, transparent);
+  opacity:.35; border-radius:2px; margin-top:8px; font-size:0.5em;
+}
+body[data-theme="potager-sauge"] .card-title + p{ margin-top:10px; }
+
+.card-title .subtitle{
+  display:block;           /* force la 2e ligne */
+  font-size:0.75em;         /* demandé */
+  font-weight:600;
+  color:var(--ink);
+  font-style:italic;       /* optionnel, enlève si tu veux */
+  letter-spacing:.1px;
+  margin-top: 5px;
+}
+
+
+
+body[data-theme="potager-sauge"] .card-title-center{
+  margin:12px 0 6px; line-height:1.2;
+  font-size:clamp(18px,1.7vw,20px);
+  font-weight:600; font-style:italic; color:var(--brand-700);
+  font-family:Georgia, "Times New Roman", serif; /* 2e ligne = sérif système */
+  position:relative; padding-bottom:6px; text-align: center;
+}
+
+
+/* ===== HERO full-bleed + texte raffiné ===== */
+
+/* Image plein écran, sans bords arrondis ni marges latérales */
+.hero{
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  min-height: 78svh;
+  position: relative;
+  border-radius: 0;
+}
+.hero img{
+  width: 100vw;
+  height: clamp(460px, 78svh, 920px);
+  object-fit: cover;
+  border-radius: 0 !important;
+  filter: brightness(.82) saturate(1.03);
+}
+
+/* Léger dégradé pour la lisibilité du texte */
+.hero::after{
+  content:"";
+  position:absolute; inset:0;
+  background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,.28) 100%);
+  pointer-events:none;
+}
+
+/* Texte en bas à gauche, aligné à gauche */
+.hero-text{
+  position:absolute;
+  left: min(5vw, 40px);
+  right: auto;
+  bottom: min(7vh, 80px);
+  max-width: min(900px, 80vw);
+  text-align: left;
+}
+
+/* Titre : serif élégante (tombe sur Georgia si tu n'ajoutes pas la font),
+   couleur claire mais douce + ombre légère */
+.hero h1{
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 700;
+  letter-spacing: .2px;
+  font-size: clamp(34px, 6vw, 64px);
+  color: #F3F6F3;
+  text-shadow: 0 2px 16px rgba(0,0,0,.45);
+  margin: 0 0 10px;
+}
+
+/* Sous-titre plus discret mais lisible */
+.hero p{
+  color: rgba(243,246,243,.92);
+  text-shadow: 0 1px 10px rgba(0,0,0,.35);
+  font-size: clamp(15px, 1.6vw, 19px);
+  margin: 0 0 18px;
+}
+
+/* Boutons alignés à gauche dans le hero */
+.hero .cta-row{
+  justify-content: flex-start;
+}
+
+/* Bouton principal légèrement plus soft dans le thème potager-sauge */
+body[data-theme="potager-sauge"] .hero .btn{
+  background: linear-gradient(135deg, var(--brand-700, #4E6A57), var(--brand, #5F7D69));
+  color: #fff;
+}
+/* Ghost plus lisible sur photo */
+.hero .btn.ghost{
+  border: 1px solid rgba(255,255,255,.55);
+  color: #F3F6F3;
+  background: rgba(0,0,0,.18);
+  backdrop-filter: blur(2px);
+}
+
+
+/* ===== HERO compact + titre centré en haut ===== */
+
+/* Hauteur du hero : ~40% d'écran (change à 33% si tu veux) */
+:root{ --hero-h: clamp(260px, 40svh, 520px); }
+/* Pour 1/3 d'écran max : utilise plutôt */
+/* :root{ --hero-h: clamp(240px, 33svh, 460px); } */
+
+.hero{
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  min-height: var(--hero-h);
+  position: relative;
+  border-radius: 0;
+}
+.hero img{
+  width: 100vw;
+  height: var(--hero-h);
+  object-fit: cover;
+  border-radius: 0 !important;
+  filter: brightness(.86) saturate(1.02);
+}
+
+/* Dégradé léger en haut pour lisibilité du titre */
+.hero::after{
+  content:"";
+  position:absolute; inset:0;
+  background: linear-gradient(180deg, rgba(0,0,0,.28) 0%, rgba(0,0,0,.12) 18%, transparent 45%);
+  pointer-events:none;
+}
+
+/* Titre centré en haut */
+.hero-text{
+  position:absolute;
+  top: min(4vh, 32px);
+  left: 50%;
+  transform: translateX(-50%);
+  right: auto;
+  bottom: auto;
+  max-width: min(1000px, 92vw);
+  text-align: center;
+}
+
+/* Titre plus chic (si tu as ajouté la serif, sinon ça reste propre) */
+.hero h1{
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 700;
+  letter-spacing: .2px;
+  font-size: clamp(30px, 5.2vw, 56px);
+  color: #F3F6F3;
+  text-shadow: 0 2px 14px rgba(0,0,0,.45);
+  margin: 0 0 6px;
+}
+
+/* Sous-titre + boutons centrés */
+.hero p{
+  color: rgba(243,246,243,.92);
+  text-shadow: 0 1px 10px rgba(0,0,0,.35);
+  font-size: clamp(14px, 1.4vw, 18px);
+  margin: 0 0 14px;
+}
+.hero .cta-row{ justify-content: center; gap: 10px; }
+
+
+/* Galerie : vignettes toutes de la même taille */
+.masonry{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+.masonry img{
+  width: 100%;
+  /* Choisis le ratio que tu préfères : */
+  aspect-ratio: 4 / 3;        /* paysage harmonieux */
+  /* aspect-ratio: 1 / 1;     carré (alternative) */
+  object-fit: cover;          /* recadre sans déformer */
+  border-radius: 12px;
+  display: block;
+  /* plus besoin de margin-bottom, géré par gap */
+}
+
+
+/* === Potager-sauge : couleurs & polices pour #galerie et #infos === */
+body[data-theme="potager-sauge"] #galerie h2,
+body[data-theme="potager-sauge"] #infos  h2{
+  color: var(--brand-700, #4E6A57);
+  font-family: "Cormorant Garamond", Georgia, serif; /* chic; tombera sur Georgia si non chargée */
+  font-weight: 700;
+  letter-spacing: .2px;
+}
+
+body[data-theme="potager-sauge"] #catalogue  h2{
+  color: var(--brand-700, #4E6A57);
+  font-family: "Cormorant Garamond", Georgia, serif; /* chic; tombera sur Georgia si non chargée */
+  font-weight: 700;
+  letter-spacing: .2px;
+}
+
+
+/* Sous-titres éventuels */
+body[data-theme="potager-sauge"] #galerie h3,
+body[data-theme="potager-sauge"] #infos  h3{
+  color: var(--brand-700, #4E6A57);
+  font-weight: 600;
+}
+
+body[data-theme="potager-sauge"] #catalogue  h3{
+  color: var(--brand-700, #4E6A57);
+  font-weight: 600;
+}
+
+/* Texte courant (paragraphes & listes) */
+body[data-theme="potager-sauge"] #galerie p,
+body[data-theme="potager-sauge"] #galerie .list li,
+body[data-theme="potager-sauge"] #infos  p,
+body[data-theme="potager-sauge"] #infos  .list li{
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell, Arial, sans-serif;
+}
+
+body[data-theme="potager-sauge"] #catalogue  p,
+body[data-theme="potager-sauge"] #catalogue .list li{
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell, Arial, sans-serif;
+}
+
+/* Notes / lead en discret */
+body[data-theme="potager-sauge"] #galerie .lead,
+body[data-theme="potager-sauge"] #galerie .note,
+body[data-theme="potager-sauge"] #infos  .lead,
+body[data-theme="potager-sauge"] #infos  .note{
+  color: var(--muted);
+}
+
+body[data-theme="potager-sauge"] #catalogue  .lead,
+body[data-theme="potager-sauge"] #catalogue  .note{
+  color: var(--muted);
+}
+
+/* Liens harmonisés */
+body[data-theme="potager-sauge"] #galerie a,
+body[data-theme="potager-sauge"] #infos  a{
+  color: var(--brand-700, #4E6A57);
+  text-decoration: none;
+}
+
+body[data-theme="potager-sauge"] #catalogue  a{
+  color: var(--brand-700, #4E6A57);
+  text-decoration: none;
+}
+
+body[data-theme="potager-sauge"] #galerie a:hover,
+body[data-theme="potager-sauge"] #infos  a:hover{
+  color: var(--brand);
+  text-decoration: underline;
+}
+body[data-theme="potager-sauge"] #catalogue  a:hover{
+  color: var(--brand);
+  text-decoration: underline;
+}
+
+/* Galerie : grille + cadre bien visible */
+#galerie .masonry{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+#galerie .masonry img{
+  width: 100%;
+  aspect-ratio: 4 / 3;       /* même taille pour toutes */
+  object-fit: cover;
+  display: block;
+  border-radius: 12px;
+
+  /* Cadre visible (utilise la sauge du thème si dispo) */
+  box-shadow:
+    0 0 0 2px var(--brand-700, #4E6A57),    /* liseré autour */
+    0 8px 18px rgba(36,48,39,.08);          /* léger relief */
+  background: #fff;                          /* évite liseré “perdu” */
+}
+
+#galerie .masonry img:hover{
+  box-shadow:
+    0 0 0 3px var(--brand, #5F7D69),
+    0 12px 24px rgba(36,48,39,.12);
+  transform: translateY(-1px);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+
+/* === #menu : cartes 100% responsives comme la galerie === */
+
+/* Conteneur */
+#menu .cards-wrap{ max-width: 1200px; margin: 0 auto; padding: 0 12px; }
+
+/* Grille auto-fit : 3 / 2 / 1 colonnes selon la place */
+#menu .grid.cards{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+  gap: 24px;
+  place-content: initial; /* évite les trous bizarres au centrage */
+}
+
+/* Cartes */
+#menu .card{ display:flex; flex-direction:column; }
+
+/* Photos uniformes (et ratio qui s’adapte sur mobile) */
+#menu .card .media{
+  width: 100%;
+  aspect-ratio: 4 / 3;          /* desktop/tablette */
+  overflow: hidden;
+  border-radius: 12px;
+  margin-bottom: .5rem;
+}
+#menu .card .media img{
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+
+/* Titres à deux niveaux (déjà en place), on ajuste la taille sur mobile */
+#menu .card .card-title{ font-size: clamp(18px, 1.7vw, 20px); line-height: 1.2; }
+
+/* “Ardoise du moment” = pleine largeur sur toutes tailles */
+#menu .card--full{ grid-column: 1 / -1; }
+
+/* Tablet */
+@media (max-width: 900px){
+  #menu .grid.cards{ gap: 20px; }
+  #menu .card .media{ aspect-ratio: 3 / 2; }
+}
+
+/* Mobile */
+@media (max-width: 560px){
+  #menu .grid.cards{ gap: 16px; }
+  #menu .card{ padding: 12px; }
+  #menu .card .media{ aspect-ratio: 16 / 10; border-radius: 10px; }
+  #menu .card .card-title{ font-size: clamp(17px, 4.2vw, 19px); }
+}
+
+/* Bouton unique dans la section Infos : centré + style "Avis Google" */
+#infos .infos-cta{
+  display:flex;
+  justify-content:center;
+  margin-top: 16px;        /* un peu d'air sous le texte */
+}
+
+#infos .infos-cta .btn.ghost{
+  background:#fff;                       /* comme "Avis Google" */
+  color: var(--ink);
+  border:1px solid rgba(36,48,39,.12);
+  box-shadow: 0 12px 28px rgba(36,48,39,.10);
+  padding: 12px 18px;
+}
+
+#infos .infos-cta .btn.ghost:hover{
+  box-shadow: 0 14px 30px rgba(36,48,39,.14);
+  transform: translateY(-1px);
+}
+
+
+/* Bouton unique dans la section Infos : centré + style "Avis Google" */
+#catalogue .catalogue-cta{
+  display:flex;
+  justify-content:center;
+  margin-top: 16px;        /* un peu d'air sous le texte */
+}
+
+
+#catalogue .catalogue-cta .btn.ghost{
+  background:#fff;                       /* comme "Avis Google" */
+  color: var(--ink);
+  border:1px solid rgba(36,48,39,.12);
+  box-shadow: 0 12px 28px rgba(36,48,39,.10);
+  padding: 12px 18px;
+}
+
+#catalogue .catalogue-cta .btn.ghost:hover{
+  box-shadow: 0 14px 30px rgba(36,48,39,.14);
+  transform: translateY(-1px);
+}
+
+/* Bouton PDF harmonisé avec le thème Potager-Sauge */
+body[data-theme="potager-sauge"] .menu-download .btn{
+  background: linear-gradient(135deg, var(--brand-700, #4E6A57), var(--brand, #5F7D69)) !important;
+  color:#fff !important;
+  border:1px solid color-mix(in oklab, var(--brand-700, #4E6A57) 35%, transparent);
+  border-radius: 999px;
+  padding: 12px 20px;
+  font-weight: 700;
+  box-shadow: 0 12px 24px rgba(36,48,39,.10);
+  transition: transform .15s ease, filter .2s ease, box-shadow .2s ease;
+}
+
+body[data-theme="potager-sauge"] .menu-download .btn:hover{
+  transform: translateY(-1px);
+  filter: saturate(1.05);
+  box-shadow: 0 14px 28px rgba(36,48,39,.14);
+}
+
+body[data-theme="potager-sauge"] .menu-download .btn:focus-visible{
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(78,106,87,.28);
+}
+
+/* === Grid responsive forcé (3 -> 2 -> 1) === */
+#menu .cards-wrap{ max-width:1200px; width:100%; margin:0 auto; padding:0 12px; }
+
+#menu .grid.cards{
+  display:grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap:24px !important;
+}
+
+@media (max-width:1100px){
+  #menu .grid.cards{
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width:680px){
+  #menu .grid.cards{
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Images des cartes : recadrage propre et ratio qui s'adapte */
+#menu .card .media{ aspect-ratio: 4 / 3; overflow:hidden; border-radius:12px; }
+#menu .card .media img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+@media (max-width:900px){ #menu .card .media{ aspect-ratio: 3 / 2; } }
+@media (max-width:560px){ #menu .card .media{ aspect-ratio: 16 / 10; border-radius:10px; } }
+
+/* Bandeau "Ardoise du moment" : pleine largeur et 100% responsive */
+#menu .card--full{ grid-column: 1 / -1; }
+
+#menu .card--full picture,
+#menu .card--full img{
+  width:100% !important;
+  max-width:min(100%, 1000px) !important; /* garde la limite 1000px sans déborder sur mobile */
+  height:auto !important;
+  border-radius:12px;
+  margin-inline:auto;      /* centre l'image dans le conteneur */
+  display:block;
+}
+
+/* Sécurité anti-débordement horizontal si d’autres styles traînent */
+img, picture{ max-width:100%; height:auto; display:block; }
+html, body{ overflow-x:hidden; }
+
+
+/* === Fix responsive cartes + ardoise === */
+
+/* Conteneur : fluide */
+#menu .cards-wrap{
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 12px;
+}
+
+/* Grille auto-fit : s’adapte toute seule (3->2->1) */
+#menu .grid.cards{
+  display: grid !important;
+  gap: 24px !important;
+  /* chaque carte garde ~300px mini puis se replie naturellement */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+}
+
+/* Sécurité très petits écrans */
+@media (max-width: 360px){
+  #menu .grid.cards{ grid-template-columns: 1fr !important; }
+}
+
+/* Images des cartes : recadrage propre */
+#menu .card .media{
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 12px;
+}
+#menu .card .media img{
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+
+/* Ardoise (bandeau) : pleine largeur et 100% responsive */
+#menu .card--full{ grid-column: 1 / -1; }
+#menu .card--full picture,
+#menu .card--full img{
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  border-radius: 12px;
+  display: block;
+  margin-inline: auto;
+}
+
+/* Anti-débordement horizontal si des styles hérités persistent */
+html, body { overflow-x: hidden; }
+picture, img { max-width: 100%; height: auto; display: block; }
+
+
+/* ==== Header toujours visible (fixed) + ancrages propres ==== */
+:root { --header-h: 64px; }  /* ajuste à 56–72px si besoin */
+
+.site-header{
+  position: fixed;          /* au lieu de sticky */
+  top: 0; left: 0; right: 0;
+  height: var(--header-h);
+  padding: 0 20px;          /* on fixe la hauteur, donc padding vertical à 0 */
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(255,255,255,.9);     /* thème clair */
+  border-bottom: 1px solid rgba(36,48,39,.10);
+  backdrop-filter: blur(10px);
+  z-index: 9999;
+}
+body[data-theme="potager-sauge"] .site-header{  /* garde le look du thème */
+  background: rgba(255,255,255,.9);
+  border-bottom: 1px solid rgba(36,48,39,.10);
+}
+
+/* Laisse la place sous le header */
+body{ padding-top: var(--header-h); }
+
+/* Scroll vers les ancres sans être masqué par le header */
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-h) + 10px); }
+
+/* --------- Menu mobile (ouvre sous le header) --------- */
+@media (max-width:820px){
+  .nav{
+    display: none;
+    position: fixed;                /* détaché du flux, sous le header */
+    right: 12px;
+    top: calc(var(--header-h) + 8px);
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid rgba(36,48,39,.12);
+    border-radius: 14px;
+    padding: 10px;
+    width: min(60vw, 300px);
+    box-shadow: 0 10px 30px rgba(0,0,0,.12);
+  }
+  body[data-theme="potager-sauge"] .nav{ background:#fff; }
+  .nav.show{ display: flex; }
+}
+
+/* Optionnel : logo/titre bien centré verticalement dans le header */
+.logo{ width:28px; height:28px; }
+.brand{ gap:10px; align-items:center; }
+
+
+/* === Compléments pour les cards du catalogue (même look que la page index) === */
+.card .meta-row {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-top:8px;
+}
+
+.card .price-chip{
+  font-weight:700;
+  white-space:nowrap;
+}
+
+.card .add-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.card .qty-input{
+  width:72px;
+  padding:8px 10px;
+  border:1px solid rgba(36,48,39,.12);
+  border-radius:10px;
+  text-align:right;
+  background:#fff;
+}
+
+/* version compacte de tes deux types de boutons (même charte) */
+.btn.is-compact{ padding:8px 14px; }
+
+
+/* ===== H2 de section — même style partout ===== */
+:root {
+  --h2-size: clamp(24px, 2.6vw, 34px);
+}
+
+body[data-theme="potager-sauge"] .section h2,
+body[data-theme="potager-sauge"] #menu h2,
+body[data-theme="potager-sauge"] #products h2,
+body[data-theme="potager-sauge"] #our-products h2,
+body[data-theme="potager-sauge"] #catalogue h2,
+body[data-theme="potager-sauge"] #panier h2 {
+  color: var(--brand-700, #4E6A57) !important;
+  font-family: "Cormorant Garamond", Georgia, serif !important;
+  font-weight: 700;
+  font-size: var(--h2-size) !important;
+  line-height: 1.2;
+  letter-spacing: .2px;
+  margin: 0 0 10px;
+}
+
+
+:root{
+  --btn-green: var(--brand, #5F7D69);
+  --btn-green-dark: var(--brand-700, #4E6A57);
+  --btn-ink: #fff;
+  --btn-ghost-ink: var(--brand-700, #4E6A57);
+  --btn-shadow: 0 10px 24px rgba(36,48,39,.18);
+  --btn-shadow-ghost: 0 12px 28px rgba(36,48,39,.14);
+}
+
+button.btn, a.btn {
+  appearance:none;
+  display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
+  font-weight:700; line-height:1;
+  padding:12px 22px; border-radius:999px; border:0;
+  text-decoration:none; cursor:pointer; user-select:none;
+  transition: transform .08s ease, filter .2s ease, box-shadow .2s ease;
+}
+
+.btn {
+  color: var(--btn-ink);
+  background: linear-gradient(180deg, var(--btn-green), var(--btn-green-dark));
+  box-shadow: var(--btn-shadow);
+}
+.btn:hover   { filter: saturate(1.05) brightness(1.02); }
+.btn:active  { transform: translateY(1px); }
+.btn:disabled{ opacity:.55; pointer-events:none; }
+
+.btn.ghost {
+  background:#fff;
+  color: var(--btn-ghost-ink);
+  border:1px solid rgba(36,48,39,.12);
+  box-shadow: var(--btn-shadow-ghost);
+}
+.btn.ghost:hover  { filter: saturate(1.03); }
+.btn.ghost:active { transform: translateY(1px); }
+
+.btn.is-compact { padding:8px 14px; font-weight:700; }
+
+
+/* === Boutons de la page Producteurs (scopés) === */
+body[data-page="producteurs"] .btn,
+body[data-page="producteurs"] a.btn {
+  border-radius: 999px !important;
+  font-weight: 700 !important;
+  padding: 12px 22px !important;
+  transition: transform .08s ease, filter .2s ease, box-shadow .2s ease !important;
+}
+
+/* Plein vert (même dégradé que l’index) */
+body[data-page="producteurs"] .btn:not(.ghost) {
+  background: linear-gradient(180deg, var(--brand-700, #4E6A57), var(--brand, #5F7D69)) !important;
+  color: #fff !important;
+  border: 0 !important;
+  box-shadow: 0 10px 24px rgba(36,48,39,.18) !important;
+}
+body[data-page="producteurs"] .btn:not(.ghost):hover { filter: saturate(1.05) brightness(1.02); }
+body[data-page="producteurs"] .btn:not(.ghost):active { transform: translateY(1px); }
+
+/* Blanc “pill” (ghost), texte vert */
+body[data-page="producteurs"] .btn.ghost,
+body[data-page="producteurs"] a.btn.ghost {
+  background:#fff !important;
+  color: var(--brand-700, #4E6A57) !important;
+  border:1px solid rgba(36,48,39,.12) !important;
+  box-shadow: 0 12px 28px rgba(36,48,39,.14) !important;
+}
+body[data-page="producteurs"] .btn.ghost:hover  { filter: saturate(1.03); }
+body[data-page="producteurs"] .btn.ghost:active { transform: translateY(1px); }
+
+/* Version compacte pour les petits boutons du panier */
+body[data-page="producteurs"] .btn.is-compact { padding: 8px 14px !important; }
+
+/* Champ quantité à côté du bouton Ajouter */
+body[data-page="producteurs"] .qty-input {
+  width:72px; padding:8px 10px;
+  border:1px solid rgba(36,48,39,.15); border-radius:10px;
+  text-align:right; line-height:1.1;
+}
+
+/* Positionne le bouton Ajouter à droite dans la cellule */
+body[data-page="producteurs"] .add-controls{
+  display: flex;
+  align-items: center;
+  width: 100%;           /* occupe toute la largeur de la cellule */
+  padding-right: 4px;    /* petit air contre le bord droit */
+}
+
+body[data-page="producteurs"] .add-controls .qty-input{
+  width: 72px;
+  padding: 8px 10px;
+  border: 1px solid rgba(36,48,39,.15);
+  border-radius: 10px;
+  text-align: right;
+  margin-right: 14px;    /* espace entre le champ et le bouton */
+}
+
+body[data-page="producteurs"] .add-controls .add-btn{
+  margin-left: auto;     /* plaque le bouton à droite */
+}
+
+/* ====== STEPper - [val] +  dans la page Producteurs ====== */
+body[data-page="producteurs"] .add-group{
+  display:inline-flex; align-items:center; gap:12px;
+}
+
+/* Le stepper : capsule blanche avec divisions subtiles */
+body[data-page="producteurs"] .qty-stepper{
+  display:inline-flex; align-items:center;
+  background:#fff;
+  border:1px solid rgba(36,48,39,.12);
+  box-shadow:0 12px 28px rgba(36,48,39,.14);
+  border-radius:999px;
+  overflow:hidden;                 /* coins nets */
+}
+
+/* Boutons - / + minimalistes */
+body[data-page="producteurs"] .qty-stepper .step{
+  appearance:none; border:0; background:transparent;
+  width:38px; height:36px;
+  font-weight:700; cursor:pointer;
+  color:var(--brand-700,#4E6A57);
+  transition: background .15s ease;
+}
+body[data-page="producteurs"] .qty-stepper .step:hover{
+  background:rgba(78,106,87,.06);
+}
+body[data-page="producteurs"] .qty-stepper .step:focus-visible{
+  outline:none; box-shadow: inset 0 0 0 2px rgba(78,106,87,.25);
+  border-radius:8px;
+}
+
+/* Valeur centrée, chiffres nets */
+body[data-page="producteurs"] .qty-stepper .qty-val{
+  min-width:36px; padding:0 10px; text-align:center;
+  font-weight:700; font-variant-numeric: tabular-nums;
+  color:var(--brand-700,#4E6A57);
+}
+
+/* Traits de séparation */
+body[data-page="producteurs"] .qty-stepper .dec{
+  border-right:1px solid rgba(36,48,39,.10);
+}
+body[data-page="producteurs"] .qty-stepper .inc{
+  border-left:1px solid rgba(36,48,39,.10);
+}
+
+/* Bouton "Ajouter" assorti (ghost dans ce pill) */
+body[data-page="producteurs"] .add-group .btn.ghost{
+  background:#fff !important;
+  color:var(--brand-700,#4E6A57) !important;
+  border:1px solid rgba(36,48,39,.12) !important;
+  box-shadow:0 12px 28px rgba(36,48,39,.14) !important;
+  border-radius:999px !important;
+  padding:10px 18px !important;
+}
+
+
+/* ===== Cart FAB + Drawer (page Producteurs) ===== */
+body[data-page="producteurs"] .cart-fab{
+  position: fixed; right: 18px; bottom: 18px; z-index: 60;
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #fff; color: var(--brand-700,#4E6A57);
+  border: 1px solid rgba(36,48,39,.12);
+  border-radius: 999px; padding: 10px 14px;
+  box-shadow: 0 12px 28px rgba(36,48,39,.14);
+  font-weight: 700;
+}
+body[data-page="producteurs"] .cart-fab .badge{
+  display:inline-block; min-width:20px; padding:2px 6px; text-align:center;
+  background: linear-gradient(180deg, var(--brand-700,#4E6A57), var(--brand,#5F7D69));
+  color:#fff; border-radius:999px; font-size:.85em;
+}
+body[data-page="producteurs"] .cart-fab.is-empty{
+  opacity:.55; pointer-events:none;
+}
+body[data-page="producteurs"] .cart-fab .fab-total{
+  opacity:.9;
+}
+
+/* Overlay */
+body[data-page="producteurs"] .cart-overlay{
+  position: fixed; inset: 0; z-index: 58;
+  background: rgba(0,0,0,.25);
+}
+body[data-page="producteurs"] .cart-overlay[hidden]{ display:none; }
+
+/* Drawer */
+body[data-page="producteurs"] .cart-panel{
+  position: fixed; top:0; right:0; height:100vh; width:min(92vw, 420px); z-index: 59;
+  background:#fff; border-left:1px solid rgba(36,48,39,.12);
+  box-shadow: -12px 0 28px rgba(0,0,0,.18);
+  transform: translateX(100%); transition: transform .25s ease;
+  display:flex; flex-direction:column;
+}
+body[data-page="producteurs"] .cart-panel.open{ transform: translateX(0); }
+
+body[data-page="producteurs"] .cart-header{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 16px; border-bottom:1px solid rgba(36,48,39,.10);
+}
+body[data-page="producteurs"] .cart-header h3{
+  margin:0; color: var(--brand-700,#4E6A57);
+  font-family:"Cormorant Garamond", Georgia, serif; font-size:1.4rem;
+}
+
+body[data-page="producteurs"] .cart-scroll{ overflow:auto; padding: 6px 12px; flex:1; }
+body[data-page="producteurs"] .cart-table{ width:100%; border-collapse:collapse; }
+body[data-page="producteurs"] .cart-table th,
+body[data-page="producteurs"] .cart-table td{
+  padding:10px 8px; border-top:1px solid rgba(36,48,39,.08);
+}
+
+body[data-page="producteurs"] .cart-footer{
+  padding:12px 16px; border-top:1px solid rgba(36,48,39,.10);
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+}
+body[data-page="producteurs"] .cart-footer .total{
+  font-weight:700; color:var(--brand-700,#4E6A57);
+}
+
+/* Mobile : FAB un peu plus grosse = meilleure cible tactile */
+@media (max-width: 560px){
+  body[data-page="producteurs"] .cart-fab{ right:14px; bottom:14px; padding:12px 16px; }
+}
+
+/* === FAB Panier : texte + badge, pas de sous-total === */
+body[data-page="producteurs"] .cart-fab{
+  position: fixed; right: 18px; bottom: 18px; z-index: 60;
+  display: inline-flex; align-items: center; gap: 10px;
+  background: #fff; color: var(--brand-700,#4E6A57);
+  border: 1px solid rgba(36,48,39,.12);
+  border-radius: 999px; padding: 10px 14px;
+  box-shadow: 0 12px 28px rgba(36,48,39,.14);
+  font-weight: 700;
+}
+body[data-page="producteurs"] .cart-fab .label{ letter-spacing:.1px; }
+body[data-page="producteurs"] .cart-fab .badge{
+  display:inline-block; min-width:22px; padding:2px 8px; text-align:center;
+  background: linear-gradient(180deg, var(--brand-700,#4E6A57), var(--brand,#5F7D69));
+  color:#fff; border-radius:999px; font-size:.85em;
+}
+/* cacher la bulle quand le panneau est ouvert */
+body[data-page="producteurs"] .cart-fab.hidden{ display:none; }
+
+/* Overlay inchangé */
+body[data-page="producteurs"] .cart-overlay{ position: fixed; inset: 0; z-index: 58; background: rgba(0,0,0,.25); }
+body[data-page="producteurs"] .cart-overlay[hidden]{ display:none; }
+
+/* Panneau plus large */
+body[data-page="producteurs"] .cart-panel{
+  position: fixed; top:0; right:0; height:100vh; width:min(92vw, 560px); z-index:59;
+  background:#fff; border-left:1px solid rgba(36,48,39,.12);
+  box-shadow: -12px 0 28px rgba(0,0,0,.18);
+  transform: translateX(100%); transition: transform .25s ease;
+  display:flex; flex-direction:column;
+}
+body[data-page="producteurs"] .cart-panel.open{ transform: translateX(0); }
+
+:root{
+  /* sera mis à jour dynamiquement par le JS */
+  --header-h: 64px;
+}
+
+/* Bulle en haut, sous le header */
+body[data-page="producteurs"] .cart-fab{
+  position: fixed;
+  top: calc(var(--header-h) + 12px);
+  right: 18px;
+  bottom: auto;
+  z-index: 60;
+}
+
+/* Overlay : commence sous le header (le header reste visible) */
+body[data-page="producteurs"] .cart-overlay{
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  top: var(--header-h);
+  z-index: 58;
+  background: rgba(0,0,0,.25);
+}
+body[data-page="producteurs"] .cart-overlay[hidden]{ display:none; }
+
+/* Panneau : occupe tout l'écran mais avec padding top = header */
+body[data-page="producteurs"] .cart-panel{
+  position: fixed; top: 0; right: 0; z-index: 59;
+  width: min(92vw, 560px);
+  height: 100vh;
+  padding-top: var(--header-h);          /* << clé : le haut ne passe plus sous le header */
+  background:#fff;
+  border-left:1px solid rgba(36,48,39,.12);
+  box-shadow: -12px 0 28px rgba(0,0,0,.18);
+  transform: translateX(100%);
+  transition: transform .25s ease;
+  display:flex; flex-direction:column;
+}
+body[data-page="producteurs"] .cart-panel.open{ transform: translateX(0); }
+
+/* ------ Mini "toast" d’ajout au panier ------ */
+body[data-page="producteurs"] .add-group{ position: relative; }
+body[data-page="producteurs"] .add-toast{
+  position:absolute; right: -6px; top: -10px;
+  background: linear-gradient(180deg, var(--brand-700,#4E6A57), var(--brand,#5F7D69));
+  color:#fff; font-weight:700; font-size:.85em;
+  padding: 6px 10px; border-radius: 999px;
+  box-shadow: 0 10px 22px rgba(0,0,0,.18);
+  opacity:0; transform: translateY(6px) scale(.95);
+  animation: addPop .9s ease forwards;
+}
+@keyframes addPop{
+  0%   { opacity:0; transform: translateY(6px) scale(.95); }
+  30%  { opacity:1; transform: translateY(0)   scale(1.00); }
+  100% { opacity:0; transform: translateY(-8px) scale(.98); }
+}
+
+/* Cacher l’entête du tableau quand vide */
+#cart thead.hidden { display:none; }
+
+/* État vide du panier */
+.cart-empty { padding: 10px 0 16px; }
+.cart-empty .cart-empty-card{
+  margin: 10px 16px 0 16px;
+  padding: 18px 16px;
+  border: 1px dashed rgba(36,48,39,.18);
+  border-radius: 14px;
+  background: #fff;
+  color: var(--muted);
+  text-align: center;
+  box-shadow: 0 8px 22px rgba(36,48,39,.06);
+}
+
+/* Enlève la double bordure sur la 1re ligne d’items */
+#cart tbody tr:first-child td { border-top: 0 !important; }
+
+/* ---------- Contrôle de quantité (+/−) (catalogue & panier) ---------- */
+.qty-control{
+  display:inline-flex; align-items:center; gap:10px;
+  padding: 6px 8px;
+  background:#fff;
+  border: 1px solid rgba(36,48,39,.14);
+  border-radius: 999px;
+  box-shadow: 0 6px 16px rgba(36,48,39,.06);
+}
+.qty-control .qty-val{
+  min-width: 22px; text-align:center; font-weight:700;
+  color: var(--brand-700, #4E6A57);
+}
+.qty-control button{
+  width: 34px; height: 28px;
+  border: 1px solid rgba(36,48,39,.12);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--brand-700, #4E6A57);
+  font-weight: 800; line-height: 1; cursor: pointer;
+  transition: transform .05s ease, box-shadow .15s ease, background .15s ease;
+}
+.qty-control button:hover{
+  background: rgba(78,106,87,.06);
+  box-shadow: inset 0 0 0 999px rgba(78,106,87,.02);
+}
+.qty-control button:active{
+  transform: translateY(1px);
+}
+
+/* Mini toast “+N” après ajout */
+.add-group{ position:relative; }
+.add-toast{
+  position:absolute; right:-6px; top:-10px;
+  background: linear-gradient(180deg, var(--brand-700,#4E6A57), var(--brand,#5F7D69));
+  color:#fff; font-weight:700; font-size:.85em;
+  padding:6px 10px; border-radius:999px;
+  box-shadow:0 10px 22px rgba(0,0,0,.18);
+  opacity:0; transform:translateY(6px) scale(.95);
+  animation:addPop .9s ease forwards;
+}
+@keyframes addPop{
+  0%{opacity:0; transform:translateY(6px) scale(.95)}
+  30%{opacity:1; transform:translateY(0)  scale(1)}
+  100%{opacity:0; transform:translateY(-8px) scale(.98)}
+}
+
+.qty-control button:disabled { opacity:.45; cursor:not-allowed; }
+
+/* Réduire et centrer la table des tarifs indicatifs */
+#tarifs .cards-wrap > div,
+#tarifs table {
+  max-width: 550px;       /* ajuste 680–860px si tu veux */
+  margin-left: 0;         /* aligné à gauche */
+  margin-right: auto;
+}
+
+#tarifs caption {
+  padding-left: 0;            /* caption aligné au contenu réduit */
+}
+
+/* === CTA de la page success === */
+#success.cta-row{
+  display:flex;
+  gap:12px;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+
+/* Bouton plein (vert, texte blanc) */
+#success .btn{
+  background:linear-gradient(135deg, var(--brand-700,#4E6A57), var(--brand,#5F7D69));
+  color:#fff;
+  border:1px solid color-mix(in oklab, var(--brand-700,#4E6A57) 35%, transparent);
+  padding:12px 20px;
+  border-radius:999px;
+  font-weight:700;
+  box-shadow:0 12px 24px rgba(36,48,39,.10);
+  transition:transform .15s ease, filter .2s ease, box-shadow .2s ease;
+  min-width:180px;
+}
+#success .btn:hover{
+  transform:translateY(-1px);
+  filter:saturate(1.05);
+  box-shadow:0 14px 28px rgba(36,48,39,.14);
+}
+
+/* Bouton clair (fond blanc, texte vert) */
+#success .btn.ghost{
+  background:#fff;
+  color:var(--brand-700,#4E6A57);
+  border:1px solid rgba(36,48,39,.12);
+  box-shadow:0 12px 28px rgba(36,48,39,.10);
+}
+#success .btn.ghost:hover{
+  box-shadow:0 14px 30px rgba(36,48,39,.14);
+  transform:translateY(-1px);
+}
+
+
+/* ===== success: redirection animée ===== */
+#success .redirect-wrap{
+  max-width: 680px;
+  margin: 18px auto 0;
+  text-align: center;
+  animation: fade-up .5s ease-out;
+}
+#success .redirect-msg{
+  color: var(--brand-700, #4E6A57);
+  font-weight: 700;
+  letter-spacing: .2px;
+  margin-bottom: 8px;
+}
+#success .redirect-bar{
+  height: 8px;
+  background: rgba(36,48,39,.12);
+  border-radius: 999px;
+  overflow: hidden;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.04);
+}
+#success .redirect-bar .fill{
+  display: block;
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--brand-700,#4E6A57), var(--brand,#5F7D69));
+  animation: redirect-fill 10s linear forwards;
+}
+
+@keyframes redirect-fill { to { width: 100%; } }
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+
+/* === Bulle promo : tête de cochon (plus grande, centrée, cliquable) === */
+.promo-bubble.pig{
+  position: fixed;
+  left: 16px;
+  bottom: 24px;
+  z-index: 70;
+
+  /* ⬅️ On garde tes réglages */
+  width: min(350px, 75vw);
+  min-height: 275px;
+
+  border-radius: 60% 60% 55% 55% / 72% 72% 46% 46%;
+  background:
+    radial-gradient(180px 130px at 68% 34%, rgba(79,125,105,.06), transparent 60%),
+    radial-gradient(140px 110px at 26% 28%, rgba(79,125,105,.05), transparent 62%),
+    #fff;
+  border: 2px solid var(--brand-700, #4E6A57);
+  box-shadow: 0 14px 32px rgba(36,48,39,.12);
+
+  /* On conserve ton padding et l’espace pour le groin */
+  padding: 28px 20px 88px;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 10px;
+
+  opacity: 0;
+  transform: translateX(-8px);
+  animation: promo-enter .38s ease-out forwards;
+
+  cursor: pointer; /* toute la bulle est cliquable */
+}
+.promo-bubble.pig:focus-visible{
+  outline: 3px solid color-mix(in oklab, var(--brand-700,#4E6A57) 35%, transparent);
+  outline-offset: 4px;
+}
+
+/* ==== Oreilles qui “embrassent” la courbe de la tête ==== */
+.promo-bubble.pig .ear{
+  position:absolute;
+  top: -7%;                  /* collées au galbe */
+  width: 24%;
+  height: 22%;
+  background:#fff;
+  border:3px solid var(--brand-700,#4E6A57);
+  border-bottom:none;
+  border-radius:58% 58% 0 0; /* oreille arrondie */
+  transform-origin: 50% 100%;
+  z-index: 0;                /* passe sous le liseré de la tête */
+}
+.promo-bubble.pig .ear.left  { left: 8%;  transform: rotate(-14deg); }
+.promo-bubble.pig .ear.right { right: 8%; transform: rotate( 14deg); }
+
+/* Petit arc à la base pour épouser la courbe (illusion de raccord) */
+.promo-bubble.pig .ear::after{
+  content:"";
+  position:absolute; left:50%; bottom:-8%;
+  transform:translateX(-50%);
+  width:80%; height:22%;
+  background:#fff;
+  border-bottom:3px solid var(--brand-700,#4E6A57);
+  border-radius:0 0 28px 28px;
+}
+
+/* ==== Yeux (légèrement plus bas) ==== */
+.promo-bubble.pig .eye{
+  position:absolute;
+  top: 35%; /* ↓ très léger décalage sous le titre */
+  width: 24px; height:24px;
+  background:#fff;
+  border:3px solid var(--brand-700,#4E6A57);
+  border-radius:50%;
+  display:grid; place-items:center;
+  box-shadow: 0 2px 6px rgba(36,48,39,.10);
+}
+.promo-bubble.pig .eye.left  { left:34%; }
+.promo-bubble.pig .eye.right { right:34%; }
+
+.promo-bubble.pig .eye .pupil{
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--brand-700,#4E6A57);
+}
+
+/* ==== Groin ==== */
+.promo-bubble.pig .snout{
+  position:absolute;
+  left:50%; bottom:14px; transform: translateX(-50%);
+  width:124px; height:78px;
+  background: color-mix(in oklab, var(--brand,#5F7D69) 10%, white 90%);
+  border: 2px solid var(--brand-700,#4E6A57);
+  border-radius: 34px;
+  box-shadow: 0 8px 18px rgba(36,48,39,.10);
+  display:flex; align-items:center; justify-content:center; gap:16px;
+}
+.promo-bubble.pig .snout .nostril{
+  width:13px; height:22px; border-radius:999px;
+  background: color-mix(in oklab, var(--brand-700,#4E6A57) 40%, transparent);
+}
+
+/* ==== Contenu ==== */
+.promo-bubble.pig .inner{
+  display:grid;
+  gap:8px;
+  text-align:center;
+  max-width: calc(100% - 28px);
+
+  /* on descend très légèrement le bloc texte (cohérent avec yeux) */
+  padding-top: 36px;
+}
+.promo-bubble.pig h4{
+  margin:0;
+  color: var(--brand-700,#4E6A57);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  letter-spacing:.2px;
+  font-size: 22px;
+}
+.promo-bubble.pig p{
+  margin:0;
+  color:var(--ink);
+}
+
+/* Croix “décollée” – ne ferme que SA bulle */
+.promo-bubble.pig .promo-close{
+  position:absolute; top:-20px; right:-20px;
+  background:#fff; border:1px solid rgba(36,48,39,.14);
+  width:34px; height:34px; border-radius:999px;
+  display:inline-flex; align-items:center; justify-content:center;
+  color: var(--brand-700,#4E6A57); cursor:pointer;
+  box-shadow: 0 6px 14px rgba(36,48,39,.12);
+}
+.promo-bubble.pig .promo-close:hover{ background: rgba(36,48,39,.05); }
+
+/* Animations */
+@keyframes promo-enter{ from{opacity:0;transform:translateX(-8px)} to{opacity:1;transform:none} }
+.promo-bubble.hide{ animation: promo-leave .22s ease-in forwards; }
+@keyframes promo-leave{ to{ opacity:0; transform: translateX(-8px); } }
+
+/* Optionnel : ajustements fins sur très petits écrans */
+@media (max-width: 420px){
+  .promo-bubble.pig .ear{ top:-6%; width:26%; height:20%; }
+  .promo-bubble.pig .eye{ top:36%; }
+  .promo-bubble.pig .snout{ width:116px; height:72px; }
+  .promo-bubble.pig h4{ font-size: 20px; }
+}
+
+
+
+
+/* Encore un cran sous 380px si besoin */
+@media (max-width: 380px){
+  .promo-bubble.pig h4{ font-size: 16px; }
+  .promo-bubble.pig p { font-size: 13px; }
+}
+
+/* ==== Tarifs indicatifs : full-width mobile, pas de scroll ==== */
+#tarifs .cards-wrap { padding: 0; }
+
+/* Le conteneur du tableau : pas de scroll forcé, largeur fluide */
+#tarifs .cards-wrap > div {
+  overflow: visible;              /* annule l'overflow:auto inline */
+  border: 1px solid rgba(36,48,39,.10);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 8px 22px rgba(36,48,39,.06);
+}
+
+/* Le tableau occupe toute la largeur et répartit l'espace */
+#tarifs table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;            /* indispensable pour casser correctement les lignes */
+}
+
+/* Autorise le retour à la ligne même si du inline a mis nowrap */
+#tarifs th,
+#tarifs td {
+  white-space: normal !important; /* override des white-space:nowrap inline */
+  overflow-wrap: anywhere;        /* casse les mots longs si besoin */
+  word-break: normal;
+  padding: 10px 12px;
+}
+
+/* Colonne prix alignée à droite */
+#tarifs td:last-child,
+#tarifs th:last-child {
+  text-align: right;
+}
+
+/* Légende du tableau */
+#tarifs table caption {
+  text-align: left;
+  padding: 12px 14px;
+  color: var(--brand-700, #4E6A57);
+  font-weight: 700;
+}
+
+/* --- Mobile --- */
+@media (max-width: 600px) {
+  #tarifs .section,
+  #tarifs .cards-wrap { padding: 0; }
+
+  /* pleine largeur visuelle sans marges latérales de .section */
+  #tarifs .cards-wrap > div {
+    border-radius: 0;
+  }
+
+  #tarifs table { font-size: 0.95rem; }
+  #tarifs th, #tarifs td { padding: 10px 10px; }
+
+  /* Donne un peu plus d’espace à la colonne “Pièce” */
+  #tarifs td:first-child, 
+  #tarifs th:first-child { width: 65%; }
+  #tarifs td:last-child, 
+  #tarifs th:last-child { width: 35%; }
+}
+
+
+/* ===== Catalogue table – desktop stays table; mobile becomes stacked cards ===== */
+
+/* desktop defaults */
+#catalogue #tbl { width: 100%; border-collapse: collapse; }
+#catalogue #tbl th, #catalogue #tbl td { padding: 12px 14px; }
+
+/* we keep category hidden on desktop */
+#catalogue #tbl td.col-category { display: none; }
+
+/* actions row (desktop) */
+#catalogue #tbl td.actions .row-actions {
+  display: flex; gap: 12px; justify-content: flex-end; align-items: center;
+}
+
+/* ===== mobile: stacked card per product ===== */
+@media (max-width: 640px) {
+
+  #catalogue #tbl thead { display: none; }
+
+  /* turn every row into a card */
+  #catalogue #tbl tr {
+    display: grid;
+    grid-template-columns: 1fr;                 /* one column */
+    grid-template-rows: auto auto auto auto auto;
+    background: #fff;
+    border: 1px solid rgba(36,48,39,.10);
+    border-radius: 12px;
+    box-shadow: 0 8px 18px rgba(36,48,39,.06);
+    margin: 12px 0;
+    padding: 10px 12px;
+  }
+
+  #catalogue #tbl td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 4px;
+    border-top: 1px solid rgba(36,48,39,.06);
+    white-space: normal !important;
+    overflow-wrap: anywhere;
+  }
+  #catalogue #tbl td:first-child { border-top: 0; }
+
+  /* show Category on mobile */
+  #catalogue #tbl td.col-category {
+    display: flex; order: 1;
+    color: var(--muted);
+    font-size: .95rem;
+  }
+  #catalogue #tbl td.col-category::before {
+    content: "Catégorie";
+    color: var(--muted);
+    margin-right: 10px;
+  }
+
+  /* Product line */
+  #catalogue #tbl td.col-name {
+    order: 2; font-weight: 600; font-size: 1.05rem;
+    gap: 8px;
+  }
+
+  /* Price line */
+  #catalogue #tbl td.col-price {
+    order: 3;
+  }
+  #catalogue #tbl td.col-price::before {
+    content: "Prix"; color: var(--muted); margin-right: 10px;
+  }
+
+  /* Stock line */
+  #catalogue #tbl td.col-stock {
+    order: 4;
+  }
+  #catalogue #tbl td.col-stock::before {
+    content: "Stock"; color: var(--muted); margin-right: 10px;
+  }
+
+  /* Actions line: quantity stepper + full button */
+  #catalogue #tbl td.actions { order: 5; border-top: 1px solid rgba(36,48,39,.08); }
+  #catalogue #tbl td.actions .row-actions {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;     /* stepper | button */
+    gap: 12px;
+    align-items: center;
+  }
+
+  /* adapt common stepper / qty input */
+  #catalogue #tbl td.actions .qty-stepper,
+  #catalogue #tbl td.actions .qty-input {
+    width: 100%;
+  }
+
+  /* make the “Ajouter” button wide and pretty */
+  #catalogue #tbl td.actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+:root { --cancel-red: #d84b4b; }
+.cancel-icon { color: var(--cancel-red); }

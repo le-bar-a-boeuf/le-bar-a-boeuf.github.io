@@ -1,0 +1,11 @@
+# supabase/functions/config.toml
+
+# valeur par défaut (si tu en as une)
+# [functions]
+# verify_jwt = true
+
+[functions.checkout]
+verify_jwt = true   # le client envoie bien l'Authorization: Bearer <anon>
+
+[functions.stripe-webhook]
+verify_jwt = false  # ⚠️ indispensable pour Stripe (pas de JWT)

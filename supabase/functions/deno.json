@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "deno.ns"],     
+    "strict": true
+  },
+  "imports": {
+    "std/http": "https://deno.land/std@0.224.0/http/server.ts",
+    "stripe": "https://esm.sh/stripe@15?target=deno",
+    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2"
+  }
+}

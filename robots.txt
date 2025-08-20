@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://le-bar-a-boeuf.github.io/le-bar-a-boeuf/sitemap.xml

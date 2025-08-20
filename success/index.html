@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Le Bar à Bœuf | Merci pour votre commande</title>
+  <meta name="description" content="Merci pour votre commande. Nous la préparons avec soin à la ferme. Click & collect disponible." />
+  <link rel="canonical" href="https://le-bar-a-boeuf.github.io/le-bar-a-boeuf/success/index.html" />
+  <meta name="theme-color" content="#4E6A57" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Le Bar à Bœuf | Merci pour votre commande" />
+  <meta property="og:description" content="Paiement confirmé. Nous préparons votre commande." />
+  <meta property="og:image" content="images/og-cover.jpg" />
+  <meta property="og:url" content="https://le-bar-a-boeuf.github.io/le-bar-a-boeuf/success/index.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" href="../images/Logo_vf.png" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script defer src="../script.js"></script>
+
+  <!-- Fallback si JS désactivé : redirection automatique en 10 s -->
+  <meta http-equiv="refresh" content="10; url=../ferme-preney/index.html" />
+
+  <style>
+    /* Carte de confirmation (léger habillage local) */
+    .success-wrap { max-width: 840px; margin: 0 auto; }
+    .success-card{
+      background:#fff;border:1px solid rgba(36,48,39,.10);
+      border-radius:16px;padding:28px;box-shadow:0 8px 22px rgba(36,48,39,.06);
+      text-align:center;
+    }
+    .success-icon{
+      width:78px;height:78px;margin:6px auto 14px;display:block;
+      color:var(--brand-700,#4E6A57);
+    }
+    .success-card h1{
+      margin:6px 0 8px;color:var(--brand-700,#4E6A57);
+      font-family:"Cormorant Garamond",Georgia,serif;font-weight:700;letter-spacing:.2px;
+      font-size:clamp(28px,5vw,42px);
+    }
+    .success-card p.lead{ margin:6px 0 14px; }
+  </style>
+</head>
+
+<body data-theme="potager-sauge">
+  <header class="site-header">
+    <a class="brand" href="../index.html#top" aria-label="Accueil Le Bar à Bœuf">
+      <img src="../images/logo_vf.png" alt="" class="logo" />
+      <span>Le Bar à Bœuf</span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav id="nav" class="nav">
+      <a href="../index.html#menu">Carte</a>
+      <a href="../ferme-preney/index.html#tbl">Produits</a>
+      <a href="../index.html#infos">Infos & contact</a>
+      <a href="../en/success.html" aria-label="English version">English</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero" style="min-height:36svh">
+      <picture>
+        <source srcset="../images/vue_Lac.webp" type="image/webp" />
+        <img src="../images/Vue_Lac.jpg" alt="Vue sur le lac du Morvan" loading="eager" />
+      </picture>
+      <div class="hero-text">
+        <h1>La ferme de Preney</h1>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="success-wrap">
+        <article class="success-card">
+          <!-- Icône validation -->
+          <svg class="success-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.6" fill="none"/>
+            <path d="M7 12.5l3.2 3.2L17 9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+
+          <h1>Merci pour votre commande</h1>
+          <p class="lead">
+            Votre paiement a bien été reçu. Vous recevrez aussi un e-mail de confirmation de Stripe.
+            Pour le click &amp; collect, présentez votre confirmation lors du retrait à la ferme.
+            Vous pouvez maintenant fermer cette fenêtre.
+          </p>
+          <p class="note">Envie de (re)découvrir notre restaurant ? C’est par ici&nbsp;!</p>
+
+          <!-- Boutons + redirection animée : réutilise le style global .btn / .btn.ghost et #success -->
+          <div id="success" class="cta-row">
+            <a class="btn ghost" href="../ferme-preney/index.html#top">Revenir à l’accueil</a>
+            <a class="btn" href="../index.html#top">Notre restaurant</a>
+            <a class="btn ghost" href="../ferme-preney/index.html#infos">Nous contacter</a>
+
+            <!-- Zone de redirection animée (barre + compteur) -->
+            <div class="redirect-wrap" aria-live="polite">
+              <div class="redirect-msg">
+                Redirection vers la page produits dans <span id="count">20</span>s…
+              </div>
+              <div class="redirect-bar">
+                <span class="fill"></span>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> Le Bar à Bœuf — Tous droits réservés.</p>
+    <nav class="foot-links">
+      <a href="#">Mentions légales</a>
+      <a href="#">Confidentialité</a>
+    </nav>
+  </footer>
+
+  <script>
+    // Optionnel : vider un panier en mémoire après succès
+    try {
+      if (window.cart && typeof window.cart.clear === 'function') window.cart.clear();
+      // Si vous persistiez le panier : localStorage.removeItem('cart');
+    } catch (_) {}
+  </script>
+  <script>
+    (function () {
+      const TARGET = '../ferme-preney/index.html';
+      const COUNT = document.getElementById('count');
+      let left = 20;
+
+      const tick = setInterval(() => {
+        left--;
+        if (COUNT) COUNT.textContent = left;
+        if (left <= 0) {
+          clearInterval(tick);
+          window.location.href = TARGET;
+        }
+      }, 1000);
+    })();
+  </script>
+</body>
+</html>

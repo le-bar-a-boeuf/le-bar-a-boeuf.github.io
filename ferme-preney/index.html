@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>La Ferme de Preney | Producteurs & Restaurateurs</title>
+  <meta name="description" content="Catalogue dynamique : produits, prix et stock en direct depuis notre base Supabase. Viande charolaise bio, circuits courts, fabrication maison." />
+  <link rel="canonical" href="https://le-bar-a-boeuf.github.io/le-bar-a-boeuf/ferme-preney" />
+  <meta name="theme-color" content="#4E6A57" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Le Bar à Bœuf | Producteurs & Inventaire" />
+  <meta property="og:description" content="Produits locaux & bio, inventaire à jour. Découvrez nos pièces charolaises et produits du moment." />
+  <meta property="og:image" content="../images/og-cover.jpg" />
+  <meta property="og:url" content="https://le-bar-a-boeuf.github.io/le-bar-a-boeuf/ferme-preney" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" href="../images/Logo_vf.png" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script defer src="../script.js"></script>
+
+  <!-- Petite règle locale : on masque la 1ʳᵉ cellule (catégorie) générée par le JS -->
+  <style>
+    /* Cache la catégorie dans le tableau catalogue (le JS ajoute un <td> catégorie en 1er) */
+    #tbl tbody td:first-child { display: none; }
+  </style>
+</head>
+
+<body data-theme="potager-sauge" data-page="producteurs">
+  <header class="site-header">
+    <a class="brand" href="../ferme-preney/index.html#top" aria-label="Accueil Le Bar à Bœuf">
+      <img src="../images/logo_vf.png" alt="" class="logo" />
+      <span>Notre Elevage</span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav id="nav" class="nav">
+      <a href="../ferme-preney/index.html#tbl">Nos Produits</a>
+      <a href="../ferme-preney/index.html#tarifs">Notre sélection</a>
+      <a href="../ferme-preney/index.html#infos">Infos & contact</a>
+      <a href="../index.html#top">Le Bar à Bœuf</a>
+      <a href="../en/preney-farm/index.html" aria-label="Version anglaise">English</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <picture>
+        <source srcset="../images/fermedepreney.webp" type="image/webp" />
+        <img src="../images/fermedepreney.jpg" alt="Vue sur la ferme de Preney" loading="eager" />
+      </picture>
+      <div class="hero-text">
+        <h1>La ferme de Preney</h1>
+      </div>
+    </section>
+
+    <!-- Intro producteurs -->
+    <section class="section">
+      <h2>De la ferme à la fourchette</h2>
+      <p class="lead">
+        Éleveurs de Charolais depuis plusieurs générations dans la Nièvre, nous cultivons un savoir-faire paysan et une exigence de qualité.
+        Nos bêtes sont élevées avec soin, nos prairies sont respectées, et nous privilégions des pratiques biologiques pour vous proposer des pièces de bœuf sincères, savoureuses et traçables.
+        Notre ambition est simple : offrir de très bons produits, à des prix justes, en circuit court.
+        C’est aussi pour cela que nous proposons le <em>click &amp; collect</em> : vous commandez en ligne, et nous vous remettons la commande à la ferme, pour garder le lien humain qui compte tant.
+      </p>
+      <p class="note" style="margin-top:.4rem">
+        N’hésitez pas à consulter régulièrement notre site : nos stocks évoluent fréquemment !
+      </p>
+    </section>
+
+    <!-- Catalogue : affiche uniquement le stock disponible (catégorie masquée) -->
+    <section id="catalogue" class="section">
+      <h2>Nos produits du moment</h2>
+      <p id="status" class="note" aria-live="polite">Chargement…</p>
+
+      <div class="cards-wrap" style="padding:0;">
+        <div style="overflow:auto;border:1px solid rgba(36,48,39,.10);border-radius:12px;background:#fff;box-shadow:0 8px 22px rgba(36,48,39,.06)">
+          <table id="tbl" style="width:100%;border-collapse:collapse">
+            <thead>
+              <tr>
+                <!-- Catégorie supprimée côté affichage -->
+                <th style="text-align:left;padding:12px 14px;white-space:nowrap;color:var(--brand-700,#4E6A57)">Produit</th>
+                <th style="text-align:right;padding:12px 14px;white-space:nowrap;color:var(--brand-700,#4E6A57)">Prix (€ / unité)</th>
+                <th style="text-align:right;padding:12px 14px;white-space:nowrap;color:var(--brand-700,#4E6A57)">Stock</th>
+                <th style="text-align:center;padding:12px 14px;white-space:nowrap;color:var(--brand-700,#4E6A57)">Ajouter</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bulle flottante panier -->
+    <button id="cartFab" class="cart-fab" aria-expanded="false" aria-controls="cartPanel" title="Mon panier">
+      🧺 <span class="label">Mon panier</span>
+      <span class="badge" id="cartCount">0</span>
+    </button>
+
+    <!-- Overlay -->
+    <div id="cartOverlay" class="cart-overlay" hidden></div>
+
+    <!-- Panneau coulissant -->
+    <aside id="cartPanel" class="cart-panel" aria-hidden="true" role="dialog" aria-label="Panier">
+      <header class="cart-header">
+        <h3>Votre panier</h3>
+        <button id="cartClose" class="btn ghost is-compact" aria-label="Fermer">×</button>
+      </header>
+
+      <div class="cart-scroll">
+        <table id="cart" class="cart-table">
+          <thead>
+            <tr>
+              <th>Produit</th>
+              <th style="text-align:right">Prix</th>
+              <th style="text-align:center">Qté</th>
+              <th style="text-align:right">Sous-total</th>
+              <th style="text-align:right"></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <footer class="cart-footer">
+        <div class="total">
+          Total <strong id="cartTotal">0,00 €</strong>
+        </div>
+        <div class="actions">
+          <button id="btnClear" class="btn ghost is-compact">Vider</button>
+          <button id="btnCheckout" class="btn">Commander</button>
+        </div>
+      </footer>
+    </aside>
+
+    <!-- ==== Tarifs indicatifs : toutes nos pièces (sans catégorie) ==== -->
+    <section id="tarifs" class="section alt">
+      <h2>Toutes nos pièces & tarifs indicatifs</h2>
+      <p class="lead">
+        Vous n’avez pas trouvé votre bonheur ? Revenez nous voir : nos stocks changent souvent.
+        Pour vous guider, voici un aperçu des pièces que nous proposons, avec leur
+        prix <em>indicatif</em> au kilo. Les disponibilités et tarifs peuvent varier selon la découpe et la saison.
+      </p>
+
+      <div class="cards-wrap" style="padding:0;">
+        <div style="overflow:auto;border:1px solid rgba(36,48,39,.10);border-radius:12px;background:#fff;box-shadow:0 8px 22px rgba(36,48,39,.06)">
+          <table style="width:100%;border-collapse:collapse">
+            <caption style="text-align:left;padding:12px 14px;color:var(--brand-700,#4E6A57);font-weight:700">
+              Tarifs indicatifs (€/kg)
+            </caption>
+            <thead>
+              <tr>
+                <th style="text-align:left;padding:12px 14px;white-space:nowrap;color:var(--brand-700,#4E6A57)">Pièce</th>
+                <th style="text-align:right;padding:12px 14px;white-space:nowrap;color:var(--brand-700,#4E6A57)">Prix indicatif</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Bœuf à griller -->
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Rumsteck</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">20€ / kg</td></tr>
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Steak</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">19€ / kg</td></tr>
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Burger (haché bœuf)</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">22€ / kg</td></tr>
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Faux-filet</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">22€ / kg</td></tr>
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Bavette</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">22€ / kg</td></tr>
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Entrecôte</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">25€ / kg</td></tr>
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Basse-côte</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">15€ / kg</td></tr>
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Rôti</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">19€ / kg</td></tr>
+
+              <!-- Pièces du boucher -->
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Tournedos</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">35€ / kg</td></tr>
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Hampe</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">27€ / kg</td></tr>
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Onglet</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">27€ / kg</td></tr>
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Araignée</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">27€ / kg</td></tr>
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Merlan</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">29€ / kg</td></tr>
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Poire</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">29€ / kg</td></tr>
+
+              <!-- Charcuterie bœuf -->
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Merguez (bœuf)</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">19€ / kg</td></tr>
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Saucisses nature / aux herbes</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">19€ / kg</td></tr>
+
+              <!-- Autres -->
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Queue</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">10€ / kg</td></tr>
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Brochette</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">20€ / kg</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="note" style="margin-top:12px">
+        * Tarifs fournis à titre informatif. Ils peuvent évoluer en fonction de divers facteurs et notamment de la disponibilité.
+      </p>
+    </section>
+
+  </main>
+
+  <section id="infos" class="section">
+      <h2>Infos & contact</h2>
+      <div class="grid two">
+        <div>
+          <p><strong>Adresse :</strong> Le Bourg, 58230 Saint-Agnan</p>
+          <p><strong>Téléphone :</strong> <a href="tel:+33637308584">NUMERO A DEFINIR</a></p>
+          <p><strong>Horaires :</strong> HORAIRES A DISCUTER</p>
+          <p><strong>Email :</strong> <a href="mailto:lebaraboeuf58@gmail.com">MAIL A DEFINIR</a></p>
+          <div class="cta-row" style="padding-top: 3%; padding-bottom: 3%;">
+            <a class="btn ghost" href="https://maps.google.com/?q=Le+Bar+à+Bœuf+Saint-Agnan" target="_blank" rel="noopener">Notre Page Google Maps</a>
+          </div>
+        </div>
+        <iframe
+          title="Carte Google"
+          loading="lazy"
+          src="https://www.google.com/maps?q=Le+Bar+%C3%A0+B%C5%93uf+Saint-Agnan&z=15&hl=fr&output=embed"
+          style="width:100%;min-height:380px;border:0;border-radius:16px">
+        </iframe>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> Le Bar à Bœuf — Tous droits réservés.</p>
+    <nav class="foot-links">
+      <a href="#">Mentions légales</a>
+      <a href="#">Confidentialité</a>
+    </nav>
+  </footer>
+
+  <!-- Supabase UMD (global window.supabase) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <!-- Vos clés publiques -->
+  <script src="../js/config.js" defer></script>
+  <!-- Logique catalogue + panier -->
+  <script src="../js/producteurs.js" defer></script>
+  <!-- Paiement Stripe -->
+  <script src="../js/payments.js" defer></script>
+  <script defer src="../js/promo.js"></script>
+</body>
+</html>

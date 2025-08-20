@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Le Bar à Bœuf | Farmers & Inventory</title>
+  <meta name="description" content="Live catalogue: products, prices and stock from our Supabase database. Organic Charolais beef, short supply chains, homemade quality." />
+  <link rel="canonical" href="https://le-bar-a-boeuf.github.io/le-bar-a-boeuf/en/preney-farm/index.html" />
+  <meta name="theme-color" content="#4E6A57" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Le Bar à Bœuf | Farmers & Inventory" />
+  <meta property="og:description" content="Local & organic products with up-to-date inventory. Discover our Charolais cuts and seasonal specials." />
+  <meta property="og:image" content="../images/og-cover.jpg" />
+  <meta property="og:url" content="https://le-bar-a-boeuf.github.io/le-bar-a-boeuf/en/preney-farm/index.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" href="../../images/Logo_vf.png" />
+  <link rel="stylesheet" href="../../styles.css" />
+  <script defer src="../../script.js"></script>
+
+  <!-- Hide the (generated) category cell in the first column of the catalogue -->
+  <style>
+    #tbl tbody td:first-child { display: none; }
+  </style>
+</head>
+
+<body data-theme="potager-sauge" data-page="producteurs">
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Le Bar à Bœuf home">
+      <img src="../../images/logo_vf.png" alt="" class="logo" />
+      <span>Our Farm</span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav id="nav" class="nav">
+      <a href="#tbl">Our products</a>
+      <a href="#tarifs">Our selection</a>
+      <a href="#infos">Info & contact</a>
+      <a href="../index.html#top">Our Restaurant</a>
+      <a href="../../ferme-preney/index.html" aria-label="French version">Français</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <picture>
+        <source srcset="../../images/fermedepreney.webp" type="image/webp" />
+        <img src="../../images/fermedepreney.jpg" alt="View of the Preney farm courtyard" loading="eager" />
+      </picture>
+      <div class="hero-text">
+        <h1>The Preney Farm</h1>
+      </div>
+    </section>
+
+    <!-- Intro -->
+    <section class="section">
+      <h2>From farm to fork</h2>
+      <p class="lead">
+        For generations in the Nièvre, our family has raised Charolais cattle with the care of farmer-growers who value the land.
+        We work organically and advocate for honest, traceable cuts with real flavour. Our aim is straightforward:
+        excellent products at fair prices through short supply chains. That’s why we also offer
+        <em>click &amp; collect</em> : order online and pick up at the farm, to keep the human connection alive.
+      </p>
+      <p class="note" style="margin-top:.4rem">
+        Check back often: our stock changes regularly!
+      </p>
+    </section>
+
+    <!-- Catalogue: only available stock (category visually hidden) -->
+    <section id="catalogue" class="section">
+      <h2>Available now</h2>
+      <p id="status" class="note" aria-live="polite">Loading…</p>
+
+      <div class="cards-wrap" style="padding:0;">
+        <div style="overflow:auto;border:1px solid rgba(36,48,39,.10);border-radius:12px;background:#fff;box-shadow:0 8px 22px rgba(36,48,39,.06)">
+          <table id="tbl" style="width:100%;border-collapse:collapse">
+            <thead>
+              <tr>
+                <!-- Category column removed from header (still present in data) -->
+                <th style="text-align:left;padding:12px 14px;white-space:nowrap;color:var(--brand-700,#4E6A57)">Product</th>
+                <th style="text-align:right;padding:12px 14px;white-space:nowrap;color:var(--brand-700,#4E6A57)">Price (€ / unit)</th>
+                <th style="text-align:right;padding:12px 14px;white-space:nowrap;color:var(--brand-700,#4E6A57)">Stock</th>
+                <th style="text-align:center;padding:12px 14px;white-space:nowrap;color:var(--brand-700,#4E6A57)">Add</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Floating cart bubble -->
+    <button id="cartFab" class="cart-fab" aria-expanded="false" aria-controls="cartPanel" title="My cart">
+      🧺 <span class="label">My cart</span>
+      <span class="badge" id="cartCount">0</span>
+    </button>
+
+    <!-- Overlay -->
+    <div id="cartOverlay" class="cart-overlay" hidden></div>
+
+    <!-- Slide-over cart -->
+    <aside id="cartPanel" class="cart-panel" aria-hidden="true" role="dialog" aria-label="Cart">
+      <header class="cart-header">
+        <h3>Your cart</h3>
+        <button id="cartClose" class="btn ghost is-compact" aria-label="Close">×</button>
+      </header>
+
+      <div class="cart-scroll">
+        <table id="cart" class="cart-table">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th style="text-align:right">Price</th>
+              <th style="text-align:center">Qty</th>
+              <th style="text-align:right">Subtotal</th>
+              <th style="text-align:right"></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <footer class="cart-footer">
+        <div class="total">
+          Total <strong id="cartTotal">€0.00</strong>
+        </div>
+        <div class="actions">
+          <button id="btnClear" class="btn ghost is-compact">Clear</button>
+          <button id="btnCheckout" class="btn">Checkout</button>
+        </div>
+      </footer>
+    </aside>
+
+    <!-- Indicative prices -->
+    <section id="tarifs" class="section alt">
+      <h2>All cuts & indicative prices</h2>
+      <p class="lead">
+        Didn’t find what you’re after? Come back soon — stock moves quickly.
+        Here’s an overview of the cuts we offer with their <em>indicative</em> price per kilo.
+        Availability and prices may vary with the season and butchering.
+      </p>
+
+      <div class="cards-wrap" style="padding:0;">
+        <div style="overflow:auto;border:1px solid rgba(36,48,39,.10);border-radius:12px;background:#fff;box-shadow:0 8px 22px rgba(36,48,39,.06)">
+          <table style="width:100%;border-collapse:collapse">
+            <caption style="text-align:left;padding:12px 14px;color:var(--brand-700,#4E6A57);font-weight:700">
+              Indicative prices (€/kg)
+            </caption>
+            <thead>
+              <tr>
+                <th style="text-align:left;padding:12px 14px;white-space:nowrap;color:var(--brand-700,#4E6A57)">Cut</th>
+                <th style="text-align:right;padding:12px 14px;white-space:nowrap;color:var(--brand-700,#4E6A57)">Price €/kg</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- For grilling -->
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Rump steak</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">€20 / kg</td></tr>
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Steak</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">€19 / kg</td></tr>
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Ground beef (burger)</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">€22 / kg</td></tr>
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Sirloin (striploin)</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">€22 / kg</td></tr>
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Flank steak</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">€22 / kg</td></tr>
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Ribeye</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">€25 / kg</td></tr>
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Chuck / short rib</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">€15 / kg</td></tr>
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Roast</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">€19 / kg</td></tr>
+
+              <!-- Butcher’s cuts -->
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Tournedos</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">€35 / kg</td></tr>
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Hanger steak</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">€27 / kg</td></tr>
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Skirt steak</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">€27 / kg</td></tr>
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Spider steak</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">€27 / kg</td></tr>
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Heel (knuckle tip)</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">€29 / kg</td></tr>
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Pope’s eye</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">€29 / kg</td></tr>
+
+              <!-- Charcuterie (beef) -->
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Beef merguez</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">€19 / kg</td></tr>
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Sausages (plain/herbs)</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">€19 / kg</td></tr>
+
+              <!-- Other -->
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Oxtail</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">€10 / kg</td></tr>
+              <tr><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06)">Skewer</td><td style="padding:10px 14px;border-top:1px solid rgba(36,48,39,.06);text-align:right">€20 / kg</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="note" style="margin-top:12px">
+        * Prices are indicative and may vary with availability and season.
+      </p>
+    </section>
+
+  </main>
+
+  <section id="infos" class="section">
+    <h2>Info & contact</h2>
+    <div class="grid two">
+      <div>
+        <p><strong>Address:</strong> Le Bourg, 58230 Saint-Agnan</p>
+        <p><strong>Phone:</strong> <a href="tel:+33637308584">TO BE CONFIRMED</a></p>
+        <p><strong>Opening hours:</strong> TO BE CONFIRMED</p>
+        <p><strong>Email:</strong> <a href="mailto:lebaraboeuf58@gmail.com">TO BE CONFIRMED</a></p>
+        <div class="cta-row" style="padding-top:3%;padding-bottom:3%;">
+          <a class="btn ghost" href="https://maps.google.com/?q=Le+Bar+à+Bœuf+Saint-Agnan" target="_blank" rel="noopener">Our Google Maps page</a>
+        </div>
+      </div>
+      <iframe
+        title="Google map"
+        loading="lazy"
+        src="https://www.google.com/maps?q=Le+Bar+%C3%A0+B%C5%93uf+Saint-Agnan&z=15&hl=en&output=embed"
+        style="width:100%;min-height:380px;border:0;border-radius:16px">
+      </iframe>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> Le Bar à Bœuf — All rights reserved.</p>
+    <nav class="foot-links">
+      <a href="#">Legal</a>
+      <a href="#">Privacy</a>
+    </nav>
+  </footer>
+
+  <!-- Supabase UMD -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <!-- Public keys -->
+  <script src="../../js/config.js" defer></script>
+  <!-- Catalogue + cart -->
+  <script src="../../js/producteurs.js" defer></script>
+  <!-- Stripe checkout -->
+  <script src="../../js/payments.js" defer></script>
+  <script src="../promo.en.js" defer></script>
+
+</body>
+</html>
