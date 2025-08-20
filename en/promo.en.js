@@ -26,14 +26,14 @@
     content = {
       title: (lang === "en") ? "Farm shop" : "Farm shop",
       text:  (lang === "en") ? "🐷 Buy our organic meat.\nClick me!" : "🐷 Buy our organic meat.\nClick me!",
-      cta:   { href: (lang === "en") ? "./en/preney-farm/index.html" : "./preney-farm/index.html" }
+      cta:   { href: (lang === "en") ? "./preney-farm/index.html" : "./preney-farm/index.html" }
     };
   } else if (isButchery) {
     // Sur la boucherie → pousser vers le restaurant
     content = {
       title: (lang === "en") ? "Our restaurant!" : "Our restaurant!",
       text:  (lang === "en") ? "🐷 We also cook.\nClick me!" : "🐷 We also cook.\nClick me!",
-      cta:   { href: (lang === "en") ? "../en/index.html" : "../index.html" }
+      cta:   { href: (lang === "en") ? "../index.html" : "../index.html" }
     };
   } else {
     return; // autres pages : rien
