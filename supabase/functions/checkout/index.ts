@@ -36,38 +36,51 @@ function withCORS(res: Response): Response {
 
 // --------- URL success/cancel ----------
 function inferUrls(req: Request, body: any) {
-  // 1) si le front a fourni, on respecte
+  // 0) Si le front fournit explicitement, on respecte
   if (body?.success_url && body?.cancel_url) {
-    return { success_url: String(body.success_url), cancel_url: String(body.cancel_url) };
-  }
-
-  // 2) si SITE_URL est défini côté secrets, on s’en sert
-  if (SITE_URL_ENV) {
     return {
-      success_url: `${SITE_URL_ENV}../success/index.html`,
-      cancel_url: `${SITE_URL_ENV}../cancel/index.html`,
+      success_url: String(body.success_url),
+      cancel_url:  String(body.cancel_url),
     };
   }
 
-  // 3) fallback depuis le referer (utile en dev local)
+  // 1) D’abord on essaie le Referer pour savoir si on est en /en/… ou non
   const ref = req.headers.get("referer");
   if (ref) {
     try {
       const u = new URL(ref);
-      const base = `${u.origin}${u.pathname.replace(/[^/]+$/, "")}`;
+      const isEn = u.pathname.startsWith("/en/");
+      const langPrefix = isEn ? "/en" : "";
+      const origin = u.origin; // ex: https://le-bar-a-boeuf.github.io
+
       return {
-        success_url: `${base}../success/index.html`,
-        cancel_url: `${base}../cancel/index.html`,
+        success_url: `${origin}${langPrefix}/success/`,
+        cancel_url:  `${origin}${langPrefix}/cancel/`,
       };
     } catch {
-      // ignore et passe au fallback final
+      // on continuera sur les fallbacks
     }
   }
 
-  // 4) dernier recours (localhost)
+  // 2) Ensuite, si SITE_URL est défini en secret, on s’y base.
+  //    On utilise la locale envoyée (par défaut "fr") pour /en/ ou non.
+  const locale: string = (body?.locale ?? "fr").toString().toLowerCase();
+  if (SITE_URL_ENV) {
+    const isEn = locale.startsWith("en");
+    const langPrefix = isEn ? "/en" : "";
+    return {
+      success_url: `${SITE_URL_ENV}${langPrefix}/success/`,
+      cancel_url:  `${SITE_URL_ENV}${langPrefix}/cancel/`,
+    };
+  }
+
+  // 3) Dernier recours : domaine GitHub Pages (user/organization pages)
+  const isEn = (body?.locale ?? "fr").toString().toLowerCase().startsWith("en");
+  const langPrefix = isEn ? "/en" : "";
+  const origin = "https://le-bar-a-boeuf.github.io";
   return {
-    success_url: "https://le-bar-a-boeuf.github.io/le-bar-a-boeuf/success/index.html",
-    cancel_url:  "https://le-bar-a-boeuf.github.io/le-bar-a-boeuf/cancel/index.html",
+    success_url: `${origin}${langPrefix}/success/`,
+    cancel_url:  `${origin}${langPrefix}/cancel/`,
   };
 }
 

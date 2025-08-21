@@ -15,8 +15,8 @@
   const isRestaurant =
     (document.body.dataset.page === "restaurant") ||
     (!isButchery && (
-      path === "/" || path === "../index.html" ||
-      path === "/en/" || path === "../en/index.html"
+      path === "/" || path === "../" ||
+      path === "/en/" || path === "../en/"
     ));
 
   let content = null;
@@ -26,14 +26,14 @@
     content = {
       title: (lang === "en") ? "Farm shop" : "Farm shop",
       text:  (lang === "en") ? "🐷 Buy our organic meat.\nClick me!" : "🐷 Buy our organic meat.\nClick me!",
-      cta:   { href: (lang === "en") ? "./preney-farm/index.html" : "./preney-farm/index.html" }
+      cta:   { href: (lang === "en") ? "./preney-farm/" : "./preney-farm/" }
     };
   } else if (isButchery) {
     // Sur la boucherie → pousser vers le restaurant
     content = {
       title: (lang === "en") ? "Our restaurant!" : "Our restaurant!",
       text:  (lang === "en") ? "🐷 We also cook.\nClick me!" : "🐷 We also cook.\nClick me!",
-      cta:   { href: (lang === "en") ? "../index.html" : "../index.html" }
+      cta:   { href: (lang === "en") ? "../" : "../" }
     };
   } else {
     return; // autres pages : rien
